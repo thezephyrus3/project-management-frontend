@@ -24,6 +24,10 @@ function Navigation() {
           <Link to="/register" className="hover:text-blue-400 transition">
             Register
           </Link>
+
+          {/* <Link to="/dashboard" className="hover:text-blue-400 transition">
+            Dashboard
+          </Link> */}
         </nav>
 
         {/* Mobile Hamburger */}
@@ -66,11 +70,18 @@ function Navigation() {
               Login
             </Link>
             <Link
-              to="/login"
+              to="/register"
               className="hover:text-blue-400 transition"
               onClick={() => setIsMenuOpen(false)}
             >
               Register
+            </Link>
+            <Link
+              to="/dashboard"
+              className="hover:text-blue-400 transition"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Dashboard
             </Link>
           </nav>
         </div>

@@ -5,12 +5,12 @@ import sqlLogo from "../assets/sql.svg";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
+    <div className="min-h-screen bg-linear-to-br from-sky-50 to-sky-100">
       {/* Hero Section - Responsive */}
       <section className="px-4 md:px-6 py-12 md:py-20 lg:py-32 max-w-7xl mx-auto">
         <div className="text-center">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 md:mb-6">
-            Manage Projects <span className="text-blue-600">Smarter</span>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-sky-900 mb-4 md:mb-6">
+            Manage Projects <span className="text-sky-600">Smarter</span>
           </h1>
           <p className="text-base md:text-xl text-gray-600 mb-6 md:mb-8 max-w-2xl mx-auto px-4">
             Streamline your workflow, collaborate with your team, and deliver
@@ -20,10 +20,10 @@ export default function Home() {
 
           {/* Buttons - Stack on mobile */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
-            <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition shadow-lg">
+            <button className="bg-sky-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-sky-700 transition shadow-lg">
               Get Started Free
             </button>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition border-2 border-blue-600">
+            <button className="bg-white text-sky-600 px-8 py-3 rounded-lg font-semibold hover:bg-sky-50 transition border-2 border-sky-600">
               Watch Demo
             </button>
           </div>
@@ -31,7 +31,7 @@ export default function Home() {
 
         {/* Hero Image */}
         <div className="mt-8 md:mt-16 bg-white rounded-2xl shadow-2xl p-4 md:p-8 max-w-5xl mx-auto">
-          <div className="bg-linear-to-br from-blue-100 to-purple-100 rounded-lg h-48 md:h-96 flex items-center justify-center">
+          <div className="bg-linear-to-br from-sky-50  to-sky-100 rounded-lg h-48 md:h-96 flex items-center justify-center">
             <p className="text-gray-500 text-sm md:text-lg">
               Dashboard Preview
             </p>
@@ -190,23 +190,23 @@ export default function Home() {
       </section>
 
       {/* CTA - Responsive */}
-      <section className="px-4 md:px-6 py-12 md:py-20 bg-linear-to-r from-blue-600 to-purple-600 text-white">
+      <section className="px-4 md:px-6 py-12 md:py-20 bg-linear-to-b from-teal-500 to-sky-900 text-white">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-4 md:mb-6 ">
             Ready to transform your project management?
           </h2>
           <p className="text-base md:text-xl mb-6 md:mb-8 text-blue-100 px-4">
             Join thousands of teams already using our platform to deliver
             projects faster.
           </p>
-          <button className="bg-white text-blue-600 px-8 md:px-10 py-3 md:py-4 rounded-lg font-bold text-base md:text-lg hover:bg-gray-100 transition shadow-xl">
+          <button className="bg-white text-sky-900 px-8 md:px-10 py-3 md:py-4 rounded-lg font-bold text-base md:text-lg hover:bg-gray-100 transition shadow-xl">
             Start Your Free Trial
           </button>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-400 md:px-6 py-8 md:py-8">
+      <footer className="bg-linear-to-b from-sky-900 to-sky-900 text-gray-400 md:px-6 py-8 md:py-8">
         <div className="max-w-7xl mx-auto text-center">
           <p className="mb-4 text-sm md:text-base">2026 | zephyrus™</p>
         </div>

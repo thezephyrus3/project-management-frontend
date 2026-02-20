@@ -76,13 +76,6 @@ function Navigation() {
             >
               Register
             </Link>
-            <Link
-              to="/dashboard"
-              className="hover:text-blue-400 transition"
-              onClick={() => setIsMenuOpen(false)}
-            >
-              Dashboard
-            </Link>
           </nav>
         </div>
       )}

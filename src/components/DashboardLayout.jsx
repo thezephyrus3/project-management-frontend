@@ -31,7 +31,7 @@ export default function DashboardLayout({ children }) {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100 overflow-hidden">
+    <div className="flex h-screen bg-gray-100 overflow-hidden justify-center">
       {/* Mobile Overlay */}
       {sidebarOpen && (
         <div

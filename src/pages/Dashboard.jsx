@@ -37,9 +37,21 @@ export default function Dashboard() {
   ];
 
   const recentActivity = [
-    { color: "bg-blue-500", text: "New project 'Website Redesign' was created", time: "2 hours ago" },
-    { color: "bg-green-500", text: "Task 'Update API endpoints' was completed", time: "5 hours ago" },
-    { color: "bg-purple-500", text: "John invited 3 new team members", time: "Yesterday" },
+    {
+      color: "bg-blue-500",
+      text: "New project 'Website Redesign' was created",
+      time: "2 hours ago",
+    },
+    {
+      color: "bg-green-500",
+      text: "Task 'Update API endpoints' was completed",
+      time: "5 hours ago",
+    },
+    {
+      color: "bg-purple-500",
+      text: "John invited 3 new team members",
+      time: "Yesterday",
+    },
   ];
 
   return (
@@ -61,7 +73,9 @@ export default function Dashboard() {
           >
             {/* Icon + Badge */}
             <div className="flex items-center justify-between mb-4">
-              <div className={`${stat.iconBg} ${stat.iconColor} w-12 h-12 rounded-xl flex items-center justify-center`}>
+              <div
+                className={`${stat.iconBg} ${stat.iconColor} w-12 h-12 rounded-xl flex items-center justify-center`}
+              >
                 {stat.icon}
               </div>
               <span className="text-xs font-semibold text-green-600 bg-green-50 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -71,7 +85,9 @@ export default function Dashboard() {
             </div>
 
             {/* Value + Label */}
-            <p className="text-3xl font-bold text-gray-900 mb-1">{stat.value}</p>
+            <p className="text-3xl font-bold text-gray-900 mb-1">
+              {stat.value}
+            </p>
             <p className="text-sm text-gray-500 font-medium">{stat.label}</p>
 
             {/* Progress Bar */}
@@ -87,14 +103,20 @@ export default function Dashboard() {
 
       {/* Recent Activity */}
       <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-bold text-gray-900 mb-4">Recent Activity</h3>
+        <h3 className="text-lg font-bold text-gray-900 mb-4">
+          Recent Activity
+        </h3>
         <div className="space-y-4">
           {recentActivity.map((item, index) => (
             <div key={index} className="flex items-start gap-3">
-              <span className={`mt-1.5 w-2 h-2 rounded-full flex-shrink-0 ${item.color}`}></span>
+              <span
+                className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${item.color}`}
+              ></span>
               <div className="flex-1 flex items-center justify-between">
                 <p className="text-sm text-gray-700">{item.text}</p>
-                <span className="text-xs text-gray-400 ml-4 flex-shrink-0">{item.time}</span>
+                <span className="text-xs text-gray-400 ml-4 shrink-0">
+                  {item.time}
+                </span>
               </div>
             </div>
           ))}

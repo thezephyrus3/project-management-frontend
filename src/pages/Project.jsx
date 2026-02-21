@@ -26,7 +26,32 @@ function Project() {
     };
 
     fetchProjects();
-  });
+  }, []);
+
+  const handleDelete = async (project) => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete ${project.name}?`,
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await api.delete(`/projects/${project.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setProjects(project.filter((p) => p.id !== project.id));
+
+      alert(`Project ${project.name} deleted succesfully`);
+    } catch (error) {
+      console.log("Error deleting project", error);
+      alert("Something went wrong with deleting the project");
+    }
+  };
+
+  // const handle;
 
   return (
     <DashboardLayout>
@@ -66,6 +91,7 @@ function Project() {
                   <td class="px-6 py-3">{project.due_date}</td>
                   <td class="px-6 py-3 flex gap-2">
                     <button
+                      // onClick={() => handleView(project)}
                       type="button"
                       class="inline-block rounded bg-blue-500 text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] hover:bg-blue-600 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-blue-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] active:bg-blue-700 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out focus:outline-none focus:ring-0"
                     >
@@ -78,6 +104,7 @@ function Project() {
                       Edit
                     </Link>
                     <button
+                      onClick={() => handleDelete(project)}
                       type="button"
                       class="inline-block rounded bg-rose-500 text-neutral-50 shadow-[0_4px_9px_-4px_rgba(51,45,45,0.7)] hover:bg-rose-600 hover:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] focus:bg-rose-800 focus:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] active:bg-rose-700 active:shadow-[0_8px_9px_-4px_rgba(51,45,45,0.2),0_4px_18px_0_rgba(51,45,45,0.1)] px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal transition duration-150 ease-in-out focus:outline-none focus:ring-0"
                     >

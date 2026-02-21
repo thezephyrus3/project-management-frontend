@@ -1,50 +1,50 @@
 import DashboardLayout from "../components/DashboardLayout";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import api from "../axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function EditProject() {
-  const { id } = useParams();
-  const [name, setName] = useState("");
+function AddTask() {
+  const [projectId, setProjectId] = useState("");
+  const [projects, setProjects] = useState([]);
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Fetch project data from backend API
   useEffect(() => {
-    const fetchProject = async () => {
+    const fetchProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await api.get(`/projects/${id}`, {
+        const response = await api.get("/projects", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setName(response.data.name);
-        setDescription(response.data.description);
-        setDate(response.data.due_date);
+
+        setProjects(response.data);
       } catch (error) {
-        console.log("Unable to view the project", error);
+        console.log("Error fetching project", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProject();
-  }, [id]);
+    fetchProjects();
+  });
 
-  const handleUpdate = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
       const token = localStorage.getItem("token");
-      await api.put(
-        `/projects/${id}`,
+      await api.post(
+        "/tasks",
         {
-          name: name,
+          project_id: projectId,
+          title: title,
           description: description,
           due_date: date,
         },
@@ -55,11 +55,11 @@ function EditProject() {
         },
       );
 
-      alert("Project updated succesfully !");
-      navigate("/projects");
+      alert("Task added succesfully !");
+      navigate("/tasks");
     } catch (error) {
-      console.log("Unable to update project", error);
-      alert("Failed to updateproject !");
+      console.log("Unable to add task", error);
+      alert("Failed to add task !");
     } finally {
       setLoading(false);
     }
@@ -69,28 +69,48 @@ function EditProject() {
     <DashboardLayout>
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-          Edit Projects
+          Add task
         </h1>
         <p className="text-gray-500 mt-1">
-          Fill in the details to edit the current projects
+          Fill in the details to add new task to project
         </p>
       </div>
 
       {/* Form Card */}
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 md:p-8 max-w-3xl">
-        <form className="space-y-6" onSubmit={handleUpdate}>
-          {/* Project Title */}
+        <form className="space-y-6" onSubmit={handleSubmit}>
+          {/* Project ID */}
           <div>
             <label
               htmlFor="title"
               className="block text-sm font-semibold text-gray-700 mb-2"
             >
-              Project Title <span className="text-red-500">*</span>
+              Project <span className="text-red-500">*</span>
+            </label>
+            <select
+              onChange={(e) => setProjectId(e.target.value)}
+              className="w-full px-4 py-1.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            >
+              {projects.map((project) => (
+                <option key={project.id} value={project.name}>
+                  {project.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Task name */}
+          <div>
+            <label
+              htmlFor="title"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Task Name <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
               id="title"
               placeholder="Enter project title"
               required
@@ -111,7 +131,7 @@ function EditProject() {
               rows="5"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="Describe your project..."
+              placeholder="Describe your task..."
               required
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition resize-none"
             ></textarea>
@@ -142,7 +162,7 @@ function EditProject() {
               type="submit"
               className="flex-1 bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition shadow-lg"
             >
-              {loading ? "Updating project..." : "Update project"}
+              {loading ? "Adding task..." : "Create task"}
             </button>
             <button
               type="button"
@@ -157,4 +177,4 @@ function EditProject() {
   );
 }
 
-export default EditProject;
+export default AddTask;

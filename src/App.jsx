@@ -8,6 +8,8 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Project from "./pages/Project";
 import AddProject from "./pages/AddProject";
 import EditProject from "./pages/EditProject";
+import Task from "./pages/Task";
+import AddTask from "./pages/AddTask";
 
 const router = createBrowserRouter([
   {
@@ -50,6 +52,24 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <EditProject />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/tasks",
+    element: (
+      <ProtectedRoute>
+        <Task />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/task/add",
+    element: (
+      <ProtectedRoute>
+        <AddTask />
       </ProtectedRoute>
     ),
   },

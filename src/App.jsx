@@ -11,6 +11,7 @@ import EditProject from "./pages/EditProject";
 import EditTask from "./pages/EditTask";
 import Task from "./pages/Task";
 import AddTask from "./pages/AddTask";
+import ProjectDetails from "./pages/ProjectDetails";
 
 const router = createBrowserRouter([
   {
@@ -80,6 +81,15 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <EditTask />
+      </ProtectedRoute>
+    ),
+  },
+
+  {
+    path: "/project/details/:id",
+    element: (
+      <ProtectedRoute>
+        <ProjectDetails />
       </ProtectedRoute>
     ),
   },

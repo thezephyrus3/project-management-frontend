@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import api from "../axios";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
+import { formatStatus } from "../utils/formatter";
 
 function Task() {
   const [tasks, setTasks] = useState([]);
@@ -104,7 +105,7 @@ function Task() {
                       {task.due_date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-gray-700">
-                      {task.status}
+                      {formatStatus(task.status)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap flex gap-2">
                       <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition">

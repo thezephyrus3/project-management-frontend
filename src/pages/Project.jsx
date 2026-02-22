@@ -51,8 +51,6 @@ function Project() {
     }
   };
 
-  // const handle;
-
   return (
     <DashboardLayout>
       <div class="overflow-x-auto bg-white border-2 border-solid border-slate-300 rounded-lg">

@@ -1,33 +1,51 @@
 import DashboardLayout from "../components/DashboardLayout";
 import { useState, useEffect } from "react";
 import api from "../axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-function AddTask() {
+function EditTask() {
+  const { id } = useParams();
   const [projectId, setProjectId] = useState("");
   const [projects, setProjects] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Fetching task
+
+  //Fetching projects
   useEffect(() => {
-    const fetchProjects = async () => {
+    const fetchTasksAndProjects = async () => {
       try {
         const token = localStorage.getItem("token");
-        const response = await api.get("/projects", {
+        // For fetching Task
+        const resTasks = await api.get(`/tasks/${id}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setProjects(response.data);
+        setTitle(resTasks.data.title);
+        setDescription(resTasks.data.description);
+        setDate(resTasks.data.due_date);
+        setProjectId(resTasks.data.project_id);
+        setStatus(resTasks.data.status);
+
+        // For fetching Project
+        const resProjects = await api.get("/projects", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setProjects(resProjects.data);
       } catch (error) {
-        console.error("Error fetching projects:", error);
+        console.error("Error fetching tasks:", error);
       }
     };
-    fetchProjects();
-  }, []);
+    fetchTasksAndProjects();
+  }, [id]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -41,20 +59,19 @@ function AddTask() {
         title: title,
         description: description,
         due_date: date,
+        status: status,
       };
 
-      const response = await api.post("/tasks", taskData, {
+      await api.put(`/tasks/${id}`, taskData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      console.log("✅ Task created successfully:", response.data);
-
-      alert("Task added successfully!");
+      alert("Task updated successfully!");
       navigate("/tasks");
     } catch (error) {
-      console.error("❌ Error adding task:", error.response?.data);
+      console.error("❌ Error updating task:", error.response?.data);
 
       if (error.response?.data?.errors) {
         const errors = error.response.data.errors;
@@ -63,7 +80,7 @@ function AddTask() {
           .join("\n");
         alert(`Validation errors:\n${errorList}`);
       } else {
-        alert("Failed to add task!");
+        alert("Failed to update task!");
       }
     } finally {
       setLoading(false);
@@ -74,10 +91,10 @@ function AddTask() {
     <DashboardLayout>
       <div className="mb-6">
         <h1 className="text-2xl md:text-3xl font-bold text-gray-900">
-          Add Task
+          Edit Task
         </h1>
         <p className="text-gray-500 mt-1">
-          Fill in the details to add new task to project
+          Change the details to edit the current task
         </p>
       </div>
 
@@ -165,6 +182,29 @@ function AddTask() {
             />
           </div>
 
+          {/* Status Dropdown */}
+          <div>
+            <label
+              htmlFor="project"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
+              Status <span className="text-red-500">*</span>
+            </label>
+            <select
+              id="status"
+              value={status}
+              onChange={(e) => setStatus(e.target.value)}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
+            >
+              <option value="">Select status</option>{" "}
+              {/* ✅ Added default option */}
+              <option value="pending">Pending</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+            </select>
+          </div>
+
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 pt-4">
             <button
@@ -188,4 +228,4 @@ function AddTask() {
   );
 }
 
-export default AddTask;
+export default EditTask;

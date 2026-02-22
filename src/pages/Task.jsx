@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import api from "../axios";
+import { Link } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 
 function Task() {
@@ -15,7 +16,7 @@ function Task() {
             Authorization: `Bearer ${token}`,
           },
         });
-        console.log("Tasks data:", response.data);
+
         setTasks(response.data);
       } catch (error) {
         console.log("Error fetching task", error);
@@ -26,11 +27,33 @@ function Task() {
     fetchTasks();
   }, []);
 
+  const handleDelete = async (task) => {
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete ${task.title}?`,
+    );
+    if (!confirmDelete) return;
+
+    try {
+      const token = localStorage.getItem("token");
+      await api.delete(`/tasks/${task.id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      setTasks(tasks.filter((t) => t.id !== task.id));
+
+      alert(`Task ${task.title} deleted succesfully`);
+    } catch (error) {
+      console.log("Error deleting task", error);
+      alert("Something went wrong trying to delete the task !");
+    }
+  };
+
   return (
     <DashboardLayout>
       <div className="p-6 bg-gray-50 min-h-screen">
         <h1 className="text-2xl font-semibold text-gray-800 mb-6">Tasks</h1>
-
         {loading ? (
           <p>Loading tasks....</p>
         ) : tasks.length === 0 ? (
@@ -87,10 +110,17 @@ function Task() {
                       <button className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition">
                         View
                       </button>
-                      <button className="px-3 py-1 bg-yellow-400 text-white text-sm rounded hover:bg-yellow-500 transition">
+                      <Link
+                        to={`/task/edit/${task.id}`}
+                        className="px-3 py-1 bg-yellow-400 text-white text-sm rounded hover:bg-yellow-500 transition"
+                      >
                         Edit
-                      </button>
-                      <button className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition">
+                      </Link>
+                      <button
+                        onClick={() => handleDelete(task)}
+                        type="button"
+                        className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600 transition"
+                      >
                         Delete
                       </button>
                     </td>

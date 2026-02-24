@@ -17,6 +17,10 @@ export default function DashboardLayout({ children }) {
     () => window.innerWidth >= 768,
   );
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [user, setUser] = useState(() => {
+    const userData = localStorage.getItem("user");
+    return userData ? JSON.parse(userData) : null;
+  });
   const navigate = useNavigate();
 
   const navItems = [
@@ -27,6 +31,7 @@ export default function DashboardLayout({ children }) {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/login");
   };
 
@@ -134,7 +139,7 @@ export default function DashboardLayout({ children }) {
                   className="w-9 h-9 rounded-full border-2 border-gray-200"
                 />
                 <span className="hidden md:flex items-center text-gray-700 font-medium gap-1 text-sm">
-                  John Doe
+                  {user?.name}
                   <FiChevronDown
                     size={16}
                     className={`transition-transform duration-200 ${dropdownOpen ? "rotate-180" : ""}`}
@@ -147,9 +152,9 @@ export default function DashboardLayout({ children }) {
                 <div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
                   <div className="px-4 py-2 border-b border-gray-100 mb-1">
                     <p className="text-sm font-semibold text-gray-800">
-                      John Doe
+                      {user?.name}
                     </p>
-                    <p className="text-xs text-gray-500">john@example.com</p>
+                    <p className="text-xs text-gray-500">{user?.email}</p>
                   </div>
                   <button
                     onClick={handleLogout}

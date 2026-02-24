@@ -3,6 +3,7 @@ import api from "../axios";
 import { Link } from "react-router-dom";
 import DashboardLayout from "../components/DashboardLayout";
 import { formatStatus } from "../utils/formatter";
+import { toast } from "react-toastify";
 
 function Task() {
   const [tasks, setTasks] = useState([]);
@@ -44,10 +45,11 @@ function Task() {
 
       setTasks(tasks.filter((t) => t.id !== task.id));
 
-      alert(`Task ${task.title} deleted succesfully`);
+      toast.success(`Task ${task.title} deleted succesfully`);
     } catch (error) {
-      console.log("Error deleting task", error);
-      alert("Something went wrong trying to delete the task !");
+      const errorMessage =
+        error.response?.data?.message || "Failed to delete task";
+      toast.error(errorMessage);
     }
   };
 

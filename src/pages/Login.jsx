@@ -1,11 +1,11 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../axios";
+import { toast } from "react-toastify";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -21,13 +21,18 @@ export default function Login() {
       });
       const token = response.data.token;
       localStorage.setItem("token", token);
-      setMessage(response.data.message);
+      const user = response.data.user;
+      localStorage.setItem("user", JSON.stringify(user));
+      //setMessage(response.data.message);
+      toast.success(response.data.message);
       navigate("/dashboard");
     } catch (error) {
       if (error.response && error.response.data.message) {
-        setMessage(error.response.data.message);
+        //setMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setMessage("Something went wrong");
+        //setMessage("Something went wrong");
+        toast.error("Something went wrong");
       }
     } finally {
       setLoading(false);
@@ -90,25 +95,6 @@ export default function Login() {
                 required
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               />
-            </div>
-
-            {/* Remember Me & Forgot Password */}
-            <div className="flex items-center justify-between">
-              <label className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={(e) => setRememberMe(e.target.checked)}
-                  className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                />
-                <span className="ml-2 text-sm text-gray-600">Remember me</span>
-              </label>
-              <Link
-                to="/forgot-password"
-                className="text-sm text-blue-600 hover:text-blue-700 font-semibold"
-              >
-                Forgot Password?
-              </Link>
             </div>
 
             {/* Submit Button */}

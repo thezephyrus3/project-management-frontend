@@ -2,6 +2,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import { useEffect, useState } from "react";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EditProject() {
   const { id } = useParams();
@@ -54,11 +55,10 @@ function EditProject() {
         },
       );
 
-      alert("Project updated succesfully !");
+      toast.success("Project updated succesfully !");
       navigate("/projects");
     } catch (error) {
-      console.log("Unable to update project", error);
-      alert("Failed to updateproject !");
+      toast.error("Unable to update project", error);
     } finally {
       setLoading(false);
     }

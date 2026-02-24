@@ -2,6 +2,7 @@ import DashboardLayout from "../components/DashboardLayout";
 import { useState, useEffect } from "react";
 import api from "../axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function EditTask() {
   const { id } = useParams();
@@ -14,9 +15,6 @@ function EditTask() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Fetching task
-
-  //Fetching projects
   useEffect(() => {
     const fetchTasksAndProjects = async () => {
       try {
@@ -68,19 +66,19 @@ function EditTask() {
         },
       });
 
-      alert("Task updated successfully!");
+      toast.success("Task updated successfully!");
       navigate("/tasks");
     } catch (error) {
-      console.error("❌ Error updating task:", error.response?.data);
+      toast.error("❌ Error updating task:", error.response?.data);
 
       if (error.response?.data?.errors) {
         const errors = error.response.data.errors;
         const errorList = Object.entries(errors)
           .map(([field, messages]) => `${field}: ${messages.join(", ")}`)
           .join("\n");
-        alert(`Validation errors:\n${errorList}`);
+        toast.error(`Validation errors:\n${errorList}`);
       } else {
-        alert("Failed to update task!");
+        toast.error("Failed to update task!");
       }
     } finally {
       setLoading(false);
@@ -212,7 +210,7 @@ function EditTask() {
               disabled={loading}
               className="flex-1 bg-linear-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition shadow-lg disabled:opacity-50"
             >
-              {loading ? "Adding task..." : "Create Task"}
+              {loading ? "Submitting changes..." : "Submit changes"}
             </button>
             <button
               type="button"

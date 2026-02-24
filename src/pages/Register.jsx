@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import api from "../axios";
+import { toast } from "react-toastify";
 
 export default function Register() {
   const [name, setName] = useState("");
@@ -23,12 +24,12 @@ export default function Register() {
 
       navigate("/login");
 
-      setMessage(response.data.message);
+      toast.success(response.data.message);
     } catch (error) {
       if (error.message && error.response.data.message) {
-        setMessage(error.response.data.message);
+        toast.error(error.response.data.message);
       } else {
-        setMessage("something went wrong");
+        toast.error("something went wrong");
       }
     } finally {
       setLoading(false);

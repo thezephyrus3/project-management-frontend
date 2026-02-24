@@ -12,6 +12,7 @@ import EditTask from "./pages/EditTask";
 import Task from "./pages/Task";
 import AddTask from "./pages/AddTask";
 import ProjectDetails from "./pages/ProjectDetails";
+import { ToastContainer } from "react-toastify";
 
 const router = createBrowserRouter([
   {
@@ -99,6 +100,7 @@ function App() {
   return (
     <>
       <RouterProvider router={router} />
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </>
   );
 }
